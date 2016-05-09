@@ -1,63 +1,145 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh">
-    <head>
-        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-        <title>注册</title>
-        <style>
-            *{margin:0;padding:0;}
-            .list{margin-bottom: 10px;overflow: hidden;}
-            .list label{float:left;width:80px;line-height: 30px;}
-            .list input{float:left;width: 200px;height: 28px;padding:0 10px;border:1px #ccc solid;}
-            .list span{float:left;line-height:30px;padding-left:10px;}
-            .list input.error{border:1px red solid;}
-            button{width:100px;height:30px;margin-left:80px;}
-        </style>
-        <script>
-            function check()
-            {
-                var oUserName = document.getElementById('username');
-                var oPassword = document.getElementById('password');
-                var oPassword1 = document.getElementById('password1');
 
-                if (oUserName.value.length == '')
-                {
-                    oUserName.nextElementSibling.innerHTML = '请输入账号';
-                    oUserName.className = 'error';
-                    return false;
-                }else if (oPassword.value.length < 6)
-                {
-                    oPassword.nextElementSibling.innerHTML = '密码不能小于6位';
-                    oPassword.className = 'error';
-                    return false;
-                }else if(oPassword1.value != oPassword.value)
-                {
-                    oPassword1.nextElementSibling.innerHTML = '两次密码不正确';
-                    oPassword1.className = 'error';
-                    return false;
-                };
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>注册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .regMain {
+            margin: 50px auto;
+            width: 440px;
+        }
+
+        .regMain h2 {
+            padding: 20px 0 20px 140px;
+        }
+
+        .list {
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .list label {
+            float: left;
+            width: 80px;
+            line-height: 30px;
+        }
+
+        .list input {
+            float: left;
+            width: 200px;
+            height: 28px;
+            padding: 0 10px;
+            border: 1px #ccc solid;
+        }
+
+        .list span {
+            float: left;
+            line-height: 30px;
+            padding-left: 10px;
+        }
+
+        .list input.error {
+            border: 1px red solid;
+        }
+
+        button {
+            width: 100px;
+            height: 30px;
+            margin-left: 80px;
+        }
+    </style>
+    <script>
+        // 验证账号
+        function checkName() {
+            var oUserName = document.getElementById('username');
+            if (oUserName.value.length == '') {
+                oUserName.nextElementSibling.innerHTML = '请输入账号';
+                oUserName.nextElementSibling.style.color = '#ff0000';
+                oUserName.className = 'error';
+                return false;
+            } else {
+                oUserName.nextElementSibling.innerHTML = '账号正确';
+                oUserName.nextElementSibling.style.color = '#000';
+                oUserName.className = '';
+                return true;
             }
-        </script>
-    </head>
-    <body>
-        <div>
-            <form id="form" action="" method="post" accept-charset="utf-8" onsubmit="return check()">
-                <div class="list">
-                    <label for="">账　　号</label>
-                    <input type="text" name="username" id="username" />
-                    <span></span>
-                </div>
-                <div class="list">
-                    <label for="">密　　码</label>
-                    <input type="password" name="password" id="password" />
-                    <span></span>
-                </div>
-                <div class="list">
-                    <label for="">确认密码</label>
-                    <input type="password" name="password1" id="password1" />
-                    <span></span>
-                </div>
-                <button type="submit" id="btn">注册</button>
-            </form>
+        };
+
+        // 验证邮箱
+        function checkEmail() {
+            var oEmail = document.getElementById('email');
+            var isEmail = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+            if (!isEmail.test(oEmail.value)) {
+                oEmail.nextElementSibling.innerHTML = '邮箱地址不正确';
+                oEmail.nextElementSibling.style.color = '#ff0000';
+                oEmail.className = 'error';
+                return false;
+            } else {
+                oEmail.nextElementSibling.innerHTML = '邮箱地址正确';
+                oEmail.nextElementSibling.style.color = '#000';
+                oEmail.className = '';
+                return true;
+            }
+        };
+
+        // 验证密码
+        function checkPwd() {
+            var oPassword = document.getElementById('password');
+            var oPassword1 = document.getElementById('password1');
+            if (oPassword.value.length < 6) {
+                oPassword.nextElementSibling.innerHTML = '密码不能小于6位';
+                oPassword.nextElementSibling.style.color = '#ff0000';
+                oPassword.className = 'error';
+                oPassword.value = '';
+                return false;
+            } else if (oPassword1.value != oPassword.value) {
+                oPassword1.nextElementSibling.innerHTML = '两次密码不正确';
+                oPassword1.nextElementSibling.style.color = '#ff0000';
+                oPassword1.className = 'error';
+                oPassword1.value = '';
+                return false;
+            } else {
+                oPassword.nextElementSibling.innerHTML = '';
+                oPassword.className = '';
+                oPassword1.nextElementSibling.innerHTML = '';
+                oPassword1.className = '';
+                return true;
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <div class="regMain">
+        <h2>注册会员</h2>
+        <div class="list">
+            <label for="">账　　号</label>
+            <input type="text" name="username" id="username" onblur="checkName()" />
+            <span></span>
         </div>
-    </body>
+        <div class="list">
+            <label for="">邮　　箱</label>
+            <input type="text" name="email" id="email" onblur="checkEmail()" />
+            <span></span>
+        </div>
+        <div class="list">
+            <label for="">密　　码</label>
+            <input type="password" name="password" id="password" />
+            <span></span>
+        </div>
+        <div class="list">
+            <label for="">确认密码</label>
+            <input type="password" name="password1" id="password1" onblur="checkPwd()" />
+            <span></span>
+        </div>
+        <button type="submit" id="btn">注册</button>
+    </div>
+</body>
+
 </html>
